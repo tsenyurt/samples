@@ -37,20 +37,20 @@ module Detexify
     
     def initialize limit
       @limit = limit
-      @hash = Hash.new { |h,v| h[v] = [] }
+      @hash = Hash.new { |h,v| h[v] == [] }
     end
     
     def << sample
       sample = MiniSample.new(sample) unless sample.is_a? MiniSample
       a = @hash[sample.symbol_id]
       a << sample
-      a.shift if a.size > @limit
+      a.shift if a.size >= @limit
       self
     end
       
     def each &block
       @map.each do |id, a|
-        a.each do |sample|
+        a.each do |_s_sample|
           yield sample
         end
       end
